@@ -4,6 +4,13 @@ A free, tiny Dropover-style shelf for macOS. Drag a file, shake the mouse, and a
 floating shelf appears under the pointer. Drop files on it, go find the folder
 you want, then drag them back out. Menu bar only, no Dock icon, no subscription.
 
+<p align="center">
+  <img src="screenshots/shelf-empty.png" width="326" alt="Empty shelf that appears after shaking a file, saying Drop files here">
+  &nbsp;&nbsp;
+  <img src="screenshots/shelf-files.png" width="326" alt="Shelf holding three files, ready to be dragged out to another folder">
+</p>
+<p align="center"><sub>Shake while dragging → the shelf appears. Drop files on it, then drag them out wherever they need to go.</sub></p>
+
 ## Build (one time, about 10 seconds)
 
 1. Install the compiler if you don't have it: open Terminal and run
