@@ -1,0 +1,6 @@
+# Build output
+DropShelf.app/
+*.dSYM/
+
+# macOS
+.DS_Store
