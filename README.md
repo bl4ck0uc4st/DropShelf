@@ -29,13 +29,16 @@ A tray icon appears in the menu bar. Done.
 
 ## Use
 
-- **Shake while dragging** one or more files (Finder, Desktop, Mail attachments, etc.) → the shelf pops up. Drop them on it.
+- **Shake while dragging** one or more files (Finder, Desktop, Mail attachments, etc.) → the shelf pops up under the pointer. Drop them on it.
 - **Drag a row out** of the shelf into any folder or app. Files are **moved** when dropped in Finder (hold **Option** while dropping to copy instead). Dragging out removes them from the shelf; the shelf closes when it's empty.
 - **Drag everything at once**: drag the stack icon at the top-left of the shelf.
-- **Multi-select**: click, Cmd-click, Shift-click. Double-click opens a file. Right-click for Reveal in Finder / Select All / Remove.
-- **Move the shelf**: drag any empty part of it. **Esc** closes it, **Delete** removes selected rows.
+- **Select**: click, Cmd-click, Shift-click, Cmd-A, or the arrow keys. **Space** opens Quick Look, **Return** opens the file, **Delete** removes it from the shelf. Hover a row for its × button; right-click for Open / Quick Look / Reveal in Finder.
+- **Hide vs. clear**: × hides the shelf but keeps the files on it (the menu bar icon shows how many are parked there); the trash icon clears it. **Esc** hides it too.
+- **Move the shelf**: drag any empty part of it.
 - If you shake but drop nothing, the shelf disappears on its own.
-- Menu bar icon: show the shelf manually, change shake sensitivity, keep files after dragging out, launch at login, quit.
+- Menu bar icon: show the shelf, shake sensitivity, appearance (match system / light / dark), keep files after dragging out, launch at login, quit.
+
+The shelf is a translucent panel that follows your light/dark mode and accent color, like a native macOS popover.
 
 ## Troubleshooting
 

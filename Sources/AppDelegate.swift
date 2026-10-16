@@ -18,6 +18,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         shelf = ShelfPanel()
         buildStatusItem()
+        shelf.onStateChange = { [weak self] in self?.updateStatusBadge() }
         detector.onShake = { [weak self] in self?.handleShake() }
         installMonitors()
     }
@@ -74,16 +75,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: Menu bar
 
     private func buildStatusItem() {
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         if let button = statusItem.button {
             let image = NSImage(systemSymbolName: "tray.and.arrow.down.fill", accessibilityDescription: "DropShelf")
             image?.isTemplate = true
             button.image = image
+            button.imagePosition = .imageOnly
+            button.font = NSFont.monospacedDigitSystemFont(ofSize: 12, weight: .medium)
             button.toolTip = "DropShelf — shake a file while dragging it"
         }
         let menu = NSMenu()
         menu.delegate = self
         statusItem.menu = menu
+    }
+
+    /// Shows how many files are parked on a hidden shelf, so they are not forgotten.
+    private func updateStatusBadge() {
+        guard let button = statusItem.button else { return }
+        let count = shelf.items.count
+        let showBadge = count > 0 && !shelf.isVisible
+        button.title = showBadge ? " \(count)" : ""
+        button.imagePosition = showBadge ? .imageLeading : .imageOnly
+        button.toolTip = showBadge
+            ? "DropShelf — \(count) \(count == 1 ? "file" : "files") on the hidden shelf"
+            : "DropShelf — shake a file while dragging it"
     }
 
     @objc private func showShelf() {
@@ -92,6 +107,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func setSensitivity(_ sender: NSMenuItem) {
         Settings.sensitivity = sender.tag
+    }
+
+    @objc private func setAppearance(_ sender: NSMenuItem) {
+        Settings.appearance = sender.tag
+        shelf.appearance = Settings.nsAppearance
     }
 
     @objc private func toggleKeep() {
@@ -129,22 +149,38 @@ extension AppDelegate: NSMenuDelegate {
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
 
-        let show = NSMenuItem(title: "Show Shelf at Cursor", action: #selector(showShelf), keyEquivalent: "")
+        let count = shelf.items.count
+        let showTitle = count > 0
+            ? "Show Shelf (\(count) \(count == 1 ? "file" : "files"))"
+            : "Show Shelf at Cursor"
+        let show = NSMenuItem(title: showTitle, action: #selector(showShelf), keyEquivalent: "")
         show.target = self
         menu.addItem(show)
         menu.addItem(.separator())
 
         let sensitivity = NSMenuItem(title: "Shake Sensitivity", action: nil, keyEquivalent: "")
-        let sub = NSMenu()
+        let sensitivityMenu = NSMenu()
         for (title, value) in [("Low", 1), ("Normal", 2), ("High", 3)] {
             let item = NSMenuItem(title: title, action: #selector(setSensitivity(_:)), keyEquivalent: "")
             item.tag = value
             item.target = self
             item.state = Settings.sensitivity == value ? .on : .off
-            sub.addItem(item)
+            sensitivityMenu.addItem(item)
         }
-        sensitivity.submenu = sub
+        sensitivity.submenu = sensitivityMenu
         menu.addItem(sensitivity)
+
+        let appearance = NSMenuItem(title: "Appearance", action: nil, keyEquivalent: "")
+        let appearanceMenu = NSMenu()
+        for (title, value) in [("Match System", 0), ("Light", 1), ("Dark", 2)] {
+            let item = NSMenuItem(title: title, action: #selector(setAppearance(_:)), keyEquivalent: "")
+            item.tag = value
+            item.target = self
+            item.state = Settings.appearance == value ? .on : .off
+            appearanceMenu.addItem(item)
+        }
+        appearance.submenu = appearanceMenu
+        menu.addItem(appearance)
 
         let keep = NSMenuItem(title: "Keep Files on Shelf After Dragging Out", action: #selector(toggleKeep), keyEquivalent: "")
         keep.target = self

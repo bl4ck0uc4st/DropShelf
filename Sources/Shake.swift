@@ -17,6 +17,23 @@ enum Settings {
         get { d.bool(forKey: "keepAfterDragOut") }
         set { d.set(newValue, forKey: "keepAfterDragOut") }
     }
+
+    /// 0 = follow system, 1 = light, 2 = dark
+    static var appearance: Int {
+        get {
+            let v = d.integer(forKey: "appearance")
+            return (0...2).contains(v) ? v : 0
+        }
+        set { d.set(newValue, forKey: "appearance") }
+    }
+
+    static var nsAppearance: NSAppearance? {
+        switch appearance {
+        case 1: return NSAppearance(named: .aqua)
+        case 2: return NSAppearance(named: .darkAqua)
+        default: return nil
+        }
+    }
 }
 
 /// Detects a quick left-right-left "shake" of the pointer while the mouse button is held.
