@@ -443,7 +443,7 @@ final class ItemRow: NSView {
         if !item.selected { panel?.select(only: item) }
         let menu = NSMenu()
         let open = NSMenuItem(title: "Open", action: #selector(openItem), keyEquivalent: "")
-        let look = NSMenuItem(title: "Quick Look", action: #selector(quickLook), keyEquivalent: "")
+        let look = NSMenuItem(title: "Quick Look", action: #selector(quickLookItem), keyEquivalent: "")
         let reveal = NSMenuItem(title: "Reveal in Finder", action: #selector(revealItem), keyEquivalent: "")
         let all = NSMenuItem(title: "Select All", action: #selector(selectAllItems), keyEquivalent: "")
         let remove = NSMenuItem(title: "Remove from Shelf", action: #selector(removeSelected), keyEquivalent: "")
@@ -458,7 +458,7 @@ final class ItemRow: NSView {
     }
 
     @objc private func openItem() { NSWorkspace.shared.open(item.refreshedURL()) }
-    @objc private func quickLook() { panel?.toggleQuickLook() }
+    @objc private func quickLookItem() { panel?.toggleQuickLook() }
     @objc private func revealItem() { NSWorkspace.shared.activateFileViewerSelecting([item.refreshedURL()]) }
     @objc private func selectAllItems() { panel?.selectAll() }
     @objc private func removeSelected() { panel?.removeSelected() }
