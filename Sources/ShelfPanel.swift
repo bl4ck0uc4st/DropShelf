@@ -35,8 +35,9 @@ final class ShelfPanel: NSPanel {
     private let emptyView = EmptyStateView(frame: .zero)
     private let scrollView = NSScrollView()
     private let listView = FlippedView()
-    private var titleLeadingWithGrip: NSLayoutConstraint!
-    private var titleLeadingWithoutGrip: NSLayoutConstraint!
+    private var titleLeadingWithGrip: NSLayoutConstraint?
+    private var titleLeadingWithoutGrip: NSLayoutConstraint?
+    private var isBuilt = false
 
     private var rows: [ItemRow] = []
     private var inFlight: [ShelfItem] = []
@@ -59,10 +60,13 @@ final class ShelfPanel: NSPanel {
         animationBehavior = .none
         appearance = Settings.nsAppearance
 
-        dropView.panel = self
-        grip.panel = self
         contentView = dropView
         buildUI()
+        isBuilt = true
+        // Wire these up only after the UI exists: attaching the content view
+        // already triggers appearance callbacks that call updateChrome().
+        dropView.panel = self
+        grip.panel = self
         updateChrome()
     }
 
@@ -199,6 +203,7 @@ final class ShelfPanel: NSPanel {
 
     /// Colors, labels and which parts are visible. Cheap; called often.
     func updateChrome() {
+        guard isBuilt else { return }
         let accent = NSColor.controlAccentColor
         dropView.layer?.borderColor = dropView.cgColor(isDragOver ? accent : .separatorColor)
         dropView.layer?.borderWidth = isDragOver ? 2 : 1
@@ -212,11 +217,11 @@ final class ShelfPanel: NSPanel {
         grip.isHidden = empty
         // Deactivate before activating so the two leading constraints never clash.
         if empty {
-            titleLeadingWithGrip.isActive = false
-            titleLeadingWithoutGrip.isActive = true
+            titleLeadingWithGrip?.isActive = false
+            titleLeadingWithoutGrip?.isActive = true
         } else {
-            titleLeadingWithoutGrip.isActive = false
-            titleLeadingWithGrip.isActive = true
+            titleLeadingWithoutGrip?.isActive = false
+            titleLeadingWithGrip?.isActive = true
         }
 
         if empty {
