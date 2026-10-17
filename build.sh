@@ -18,6 +18,7 @@ echo "Compiling DropShelf for $ARCH..."
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp Info.plist "$APP/Contents/Info.plist"
+cp icon/DropShelf.icns "$APP/Contents/Resources/DropShelf.icns"
 swiftc -O -target "${ARCH}-apple-macosx12.0" \
   Sources/main.swift Sources/Shake.swift Sources/AppDelegate.swift \
   Sources/Views.swift Sources/ShelfPanel.swift \
@@ -31,6 +32,7 @@ pkill -x DropShelf 2>/dev/null || true
 if [ "${1:-}" = "--install" ]; then
   rm -rf "/Applications/$APP"
   cp -R "$APP" /Applications/
+  touch "/Applications/$APP"
   open "/Applications/$APP"
   echo "Installed to /Applications and launched."
 else

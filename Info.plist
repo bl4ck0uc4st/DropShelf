@@ -10,6 +10,8 @@
 	<string>com.vraj.dropshelf</string>
 	<key>CFBundleExecutable</key>
 	<string>DropShelf</string>
+	<key>CFBundleIconFile</key>
+	<string>DropShelf</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleInfoDictionaryVersion</key>

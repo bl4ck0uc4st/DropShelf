@@ -1,3 +1,5 @@
+<p align="center"><img src="icon/DropShelf-512.png" width="128" alt="DropShelf icon"></p>
+
 # DropShelf
 
 A free, tiny Dropover-style shelf for macOS. Drag a file, shake the mouse, and a

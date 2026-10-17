@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- DropShelf app icon. macOS icon grid: 824px rounded square on a 1024px canvas. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6D7CFF"/>
+      <stop offset="1" stop-color="#2F3BD9"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.22"/>
+      <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="14"/>
+      <feOffset dy="18" result="b"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.35"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glyphShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+      <feOffset dy="10" result="b"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Body -->
+  <g filter="url(#shadow)">
+    <rect x="100" y="100" width="824" height="824" rx="186" ry="186" fill="url(#bg)"/>
+  </g>
+  <rect x="100" y="100" width="824" height="824" rx="186" ry="186" fill="url(#sheen)"/>
+
+  <!-- Glyph: arrow dropping into a tray -->
+  <g filter="url(#glyphShadow)" fill="none" stroke="#FFFFFF" stroke-width="68" stroke-linecap="round" stroke-linejoin="round">
+    <!-- tray: open U with a rounded floor -->
+    <path d="M 268 536 L 268 660 Q 268 724 332 724 L 692 724 Q 756 724 756 660 L 756 536"/>
+    <!-- arrow entering the tray -->
+    <path d="M 512 290 L 512 582"/>
+    <path d="M 414 486 L 512 584 L 610 486"/>
+  </g>
+</svg>
